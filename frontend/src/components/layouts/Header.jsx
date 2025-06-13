@@ -11,7 +11,7 @@ export default function Header() {
         <header className="sticky top-0 z-20 bg-white shadow-sm px-6 py-4 flex items-center justify-between dark:bg-gray-800 dark:text-gray-200 transition-colors duration-300">
             {/* Center: Search bar */}
 
-            <button className='md:hidden' onClick={toggleMobileSidebar} >
+            <button className='sm:hidden' onClick={toggleMobileSidebar} >
                 <MenuIcon />
             </button>
 

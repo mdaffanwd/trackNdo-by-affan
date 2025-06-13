@@ -7,8 +7,10 @@ export function SidebarContextProvider({ children }) {
     const [fullSidebar, setFullSidebar] = useState(true)
 
     const toggleMobileSidebar = () => setIsMobileSidebarOpen(prev => !prev)
-    const toggleFullSidebar = () => setFullSidebar(prev => !prev)
-    console.log(isMobileSidebarOpen)
+    const toggleFullSidebar = () => {
+        if (isMobileSidebarOpen === true) return
+        setFullSidebar(prev => !prev)
+    }
 
     return (
         <SidebarContext.Provider

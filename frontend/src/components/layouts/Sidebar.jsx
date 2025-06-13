@@ -9,36 +9,44 @@ import {
 } from 'lucide-react';
 import { useSidebar } from '../../context/SidebarContext.jsx';
 
+
+const navItems = [
+    { name: 'Dashboard', icon: Home },
+    { name: 'Tasks', icon: ListTodo },
+    { name: 'Manage', icon: Settings },
+    { name: 'Report', icon: ClipboardList },
+];
+
 export default function Sidebar() {
-    const { fullSidebar, toggleFullSidebar, toggleMobileSidebar } = useSidebar();
+    const { fullSidebar, toggleFullSidebar, isMobileSidebarOpen, toggleMobileSidebar } = useSidebar();
+
     const [activeItem, setActiveItem] = useState('Tasks');
 
-    const navItems = [
-        { name: 'Dashboard', icon: Home },
-        { name: 'Tasks', icon: ListTodo },
-        { name: 'Manage', icon: Settings },
-        { name: 'Report', icon: ClipboardList },
-    ];
+    const shouldBeFull = fullSidebar || isMobileSidebarOpen;
 
+    function handleLinkClick(item) {
+        return function (e) {
+            e.preventDefault();
+            setActiveItem(item.name);
+            if (toggleMobileSidebar) toggleMobileSidebar(false);
+        };
+    }
     return (
         <aside
-            className={`
-        h-screen bg-white dark:bg-gray-900 shadow-2xl transition-all duration-300 flex flex-col
-        ${fullSidebar ? 'w-56' : 'w-16'}
-      `}
+            className={`sticky top-0 h-screen bg-white dark:bg-gray-900 shadow-2xl transition-all duration-300 flex flex-col ${shouldBeFull ? 'w-56' : 'w-fit'}`}
         >
             {/* Logo + desktop toggle */}
             <div className="flex items-center justify-between p-4">
                 <img
                     src={fullSidebar ? '/trackNdo.jpeg' : '/trackNdo-cropped.jpeg'}
                     alt="logo"
-                    className="h-10"
+                    className="h-8"
                 />
                 <button
                     onClick={toggleFullSidebar}
                     className="hidden sm:block p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition"
                 >
-                    {fullSidebar
+                    {shouldBeFull
                         ? <ChevronLeft className="h-5 w-5 text-gray-600 dark:text-gray-300" />
                         : <ChevronRight className="h-5 w-5 text-gray-600 dark:text-gray-300" />
                     }
@@ -59,22 +67,15 @@ export default function Sidebar() {
                         <li key={item.name} className="mb-2">
                             <a
                                 href="#"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    setActiveItem(item.name);
-                                    // close on mobile after click
-                                    toggleMobileSidebar && toggleMobileSidebar(false);
-                                }}
-                                className={`
-                  flex items-center gap-2 p-3 rounded-xl transition-colors duration-200
-                  ${activeItem === item.name
+                                onClick={handleLinkClick(item)}
+                                className={`flex items-center gap-2 p-3 rounded-xl transition-colors duration-200 
+                                    ${activeItem === item.name
                                         ? 'bg-blue-100 text-blue-700 font-semibold dark:bg-blue-900 dark:text-blue-300'
                                         : 'text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800'
-                                    }
-                `}
+                                    }`}
                             >
                                 <item.icon className="h-5 w-5" />
-                                {fullSidebar && <span className="text-lg">{item.name}</span>}
+                                {shouldBeFull && <span className="text-lg">{item.name}</span>}
                             </a>
                         </li>
                     ))}
