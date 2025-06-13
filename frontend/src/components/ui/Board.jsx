@@ -1,19 +1,29 @@
-import { Edit, MoreVertical, Plus, PlusCircle } from 'lucide-react';
+import { Edit, MoreVertical, Plus, PlusCircle, Save } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react'
 import TaskCard from './TaskCard.jsx';
 import OptionButtons from './OptionButtons.jsx';
 import AddTaskDialog from '../dialogs/AddTaskDialog.jsx';
 
 
-export default function Board({ title, handleDeleteBoard, boardId }) {
+export default function Board({
+  title,
+  handleDeleteBoard,
+  boardId,
+  handleRenameBoard
+}) {
+
   const btnRef = useRef()
   const menuRef = useRef()
+  const inputRef = useRef();
+
 
   const [openOptions, setOpenOptions] = useState(false)
 
   // add task dialog.
   const [isAddTaskOpen, setIsAddTaskOpen] = useState(false);
 
+  const [isEditing, setIsEditing] = useState(false);
+  const [editBoardTitle, setEditBoardTitle] = useState("");
 
   const [tasks, setTasks] = useState([
     {
@@ -53,6 +63,20 @@ export default function Board({ title, handleDeleteBoard, boardId }) {
     handleDeleteBoard(boardId)
   }
 
+  function handleEditClick() {
+    setIsEditing(true);
+    setEditBoardTitle(title);
+  }
+
+  function handleSaveChangedTitle() {
+    const trimmed = editBoardTitle.trim();
+    if (trimmed && trimmed !== title) {
+      handleRenameBoard(boardId, trimmed)
+    }
+    setIsEditing(false);
+    setEditBoardTitle(trimmed || title);
+  }
+
 
   useEffect(() => {
     function onDocClick(e) {
@@ -69,22 +93,40 @@ export default function Board({ title, handleDeleteBoard, boardId }) {
     return () => document.removeEventListener('mousedown', onDocClick)
   }, [])
 
+  // for editing board title
+  useEffect(() => {
+    if (isEditing) inputRef.current?.focus();
+  }, [isEditing]);
 
   return (
     <>
-
       {/* Show AddTaskDialog if open */}
       {isAddTaskOpen && (
         <AddTaskDialog setIsAddTaskOpen={setIsAddTaskOpen} />
       )
+
       }
       <div className="flex-grow p-4 bg-gray-50 dark:bg-gray-800 border-t-4 border-t-red-800 rounded-2xl shadow-xl transition-colors duration-300 dark:shadow-2xl dark:shadow-gray-800">
         {/* Board Header */}
         <div className="flex items-center justify-between p-5 bg-white dark:bg-gray-700 border-b-2 border-gray-400 dark:border-gray-600 rounded-t-2xl transition-colors duration-300">
 
           <div className='flex items-center gap-2'>
-            <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">{title}</h2>
-            <Edit className='opacity-50 hover:opacity-100 transition duration-300 dark:text-gray-100' />
+            {isEditing ? (
+              <input
+                type="text"
+                ref={inputRef}
+                value={editBoardTitle}
+                onChange={(e) => setEditBoardTitle(e.target.value)}
+                onBlur={handleSaveChangedTitle}
+                onKeyDown={(e) => e.key === 'Enter' && handleSaveChangedTitle()}
+                className="w-full px-3 py-1 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:focus:ring-blue-400 transition duration-200"
+              />
+            ) : (<h2 className="w-fit text-2xl font-bold text-gray-800 dark:text-gray-100">{title}</h2>)
+            }
+
+            {isEditing ? (<Save onClick={handleSaveChangedTitle} className=' opacity-50 hover:opacity-100 transition duration-300 dark:text-gray-100' />) :
+              <Edit onClick={handleEditClick} className='opacity-50 hover:opacity-100 transition duration-300 dark:text-gray-100' />
+            }
           </div>
 
           <div className='relative'>
@@ -102,6 +144,7 @@ export default function Board({ title, handleDeleteBoard, boardId }) {
 
           </div>
         </div>
+        
         {/* Top border gradient (cosmetic from screenshot) */}
         <div className="h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 w-full -mt-0.5"></div>
 

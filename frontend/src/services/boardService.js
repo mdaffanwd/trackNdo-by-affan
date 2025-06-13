@@ -14,3 +14,8 @@ export async function createBoard(board) {
 export async function deleteBoard(boardId) {
   await api.delete(`/boards/${boardId}`)
 }
+
+export async function updateBoard(boardId, updated) {
+  const response = await api.patch(`/boards/${boardId}`, updated)
+  return response.data
+}

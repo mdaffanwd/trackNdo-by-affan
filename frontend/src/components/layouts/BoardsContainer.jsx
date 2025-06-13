@@ -4,7 +4,8 @@ import Board from '../ui/Board.jsx'
 import { Plus } from 'lucide-react'
 import Header from './Header.jsx'
 import { useEffect } from 'react'
-import { createBoard, deleteBoard, getBoards } from '../../services/boardService.js'
+import { createBoard, deleteBoard, getBoards, updateBoard } from '../../services/boardService.js'
+import toast from 'react-hot-toast';
 
 export default function BoardsContainer() {
     const [boards, setBoards] = useState([])
@@ -26,15 +27,35 @@ export default function BoardsContainer() {
             setBoards((prev) => [...prev, newBoard]);
             handleCloseBoard();
             setBoardTitle("")
+            toast.success(`Board added successfully with title: ${boardTitle}`);
         } catch (error) {
             console.error('Create board failed', error);
+            toast.error("Something went wrong!");
         }
     }, [boardTitle, setBoards, setBoardTitle, handleCloseBoard])
 
     async function handleDeleteBoard(boardId) {
-        // console.log(boardId)
-        await deleteBoard(boardId)
-        setBoards((prev) => prev.filter((board) => board._id !== boardId));
+        try {
+            await deleteBoard(boardId)
+            setBoards((prev) => prev.filter((board) => board._id !== boardId));
+            toast.success(`Board deleted successfully`);
+        } catch (error) {
+            toast.error("Something went wrong!");
+        }
+    }
+
+    async function handleRenameBoard(boardId, newTitle) {
+        console.log(newTitle)
+        try {
+            const updated = await updateBoard(boardId, { title: newTitle });
+            setBoards(allBoards =>
+                allBoards.map(board => (board._id === boardId ? { ...board, title: updated.title } : board))
+            );
+            toast.success(`Renamed board to “${updated.title}”`);
+        } catch (error) {
+            console.error(error);
+            toast.error('Could not rename board');
+        }
     }
 
     useEffect(() => {
@@ -71,14 +92,17 @@ export default function BoardsContainer() {
                 </button>
 
                 <div className='w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  items-center gap-4 mx-auto'>
-                    {boards.map(board => (
-                        <Board
-                            key={board._id}
-                            title={board.title}
-                            boardId={board._id}
-                            handleDeleteBoard={handleDeleteBoard}
-                        />
-                    )).reverse()}
+                    {boards
+                        .slice().reverse()
+                        .map(board => (
+                            <Board
+                                key={board._id}
+                                boardId={board._id}
+                                title={board.title}
+                                handleDeleteBoard={handleDeleteBoard}
+                                handleRenameBoard={handleRenameBoard}
+                            />
+                        ))}
                 </div>
             </div>
         </main>

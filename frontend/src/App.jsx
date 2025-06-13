@@ -8,10 +8,12 @@ import MainLayout from './components/layouts/MainLayout.jsx'
 import SignUp from './components/layouts/SignUp.jsx'
 import HomePage from './pages/HomePage.jsx'
 import ProvidersWrapper from './context/ProvidersWrapper.jsx'
+import Toast from './components/ui/Toast.jsx'
 
 export default function App() {
   return (
     <ProvidersWrapper>
+      <Toast />
       <HomePage />
       {/* <Header /> */}
       {/* <main className='flex flex-row min-h-screen w-[100%] max-w-[1640px] m-auto'>
