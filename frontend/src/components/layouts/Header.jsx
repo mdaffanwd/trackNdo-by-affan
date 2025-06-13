@@ -1,13 +1,20 @@
-import { Moon, Search, Sun, User } from 'lucide-react'
+import { MenuIcon, Moon, Search, Sun, User } from 'lucide-react'
 import useDarkMode from '../../hooks/useDarkMode.js'
+import { useSidebar } from '../../context/SidebarContext.jsx';
 
 export default function Header() {
-
+    const { toggleMobileSidebar } = useSidebar()
     const [isDark, toggleDarkMode] = useDarkMode()
+
 
     return (
         <header className="sticky top-0 z-20 bg-white shadow-sm px-6 py-4 flex items-center justify-between dark:bg-gray-800 dark:text-gray-200 transition-colors duration-300">
             {/* Center: Search bar */}
+
+            <button className='md:hidden' onClick={toggleMobileSidebar} >
+                <MenuIcon />
+            </button>
+
             <div className="relative flex-1 max-w-lg mx-6">
                 <input
                     type="text"

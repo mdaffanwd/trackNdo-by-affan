@@ -6,19 +6,20 @@ import useDarkMode from './hooks/useDarkMode.js'
 import SignIn from './components/layouts/SignIn';
 import MainLayout from './components/layouts/MainLayout.jsx'
 import SignUp from './components/layouts/SignUp.jsx'
+import HomePage from './pages/HomePage.jsx'
+import ProvidersWrapper from './context/ProvidersWrapper.jsx'
 
 export default function App() {
   return (
-    <>
+    <ProvidersWrapper>
+      <HomePage />
       {/* <Header /> */}
-      <main className='flex flex-row min-h-screen w-[100%] max-w-[1640px] m-auto'>
+      {/* <main className='flex flex-row min-h-screen w-[100%] max-w-[1640px] m-auto'>
         <Sidebar />
         <MainLayout>
-          {/* <SignIn /> */}
-          {/* <SignUp /> */}
           <BoardsContainer />
         </MainLayout>
-      </main>
-    </>
+      </main> */}
+    </ProvidersWrapper>
   )
 }
