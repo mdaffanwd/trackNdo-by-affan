@@ -11,7 +11,7 @@ function OptionButtons({ menuRef, setOpenOptions, onAddTask, handleDeleteBoard }
   return (
     <div
       ref={menuRef}
-      className="absolute mt-2 right-0 w-40 bg-white border border-gray-200 rounded-xl shadow-2xl z-20"
+      className="absolute mt-2 right-0 w-40 bg-white border border-gray-200 rounded-xl shadow-2xl z-20 overflow-hidden"
     >
       <button
         onClick={onAddTask}

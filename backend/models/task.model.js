@@ -1,6 +1,6 @@
 import { model, Schema, SchemaTypes } from "mongoose";
 
-const todoSchema = new Schema({
+const taskSchema = new Schema({
   title: {
     type: String,
     required: true,
@@ -15,7 +15,9 @@ const todoSchema = new Schema({
     default: false,
   },
   priority: {
-    enum: ['low', 'medium', 'high']
+    type: String,
+    enum: ['low', 'medium', 'high'],
+      default: 'low'
   },
   board: {
     type: SchemaTypes.ObjectId,
@@ -23,5 +25,5 @@ const todoSchema = new Schema({
   },
 }, { timestamps: true })
 
-const Todo = model("Todo", todoSchema);
-export default Todo
+const Task = model("Task", taskSchema);
+export default Task

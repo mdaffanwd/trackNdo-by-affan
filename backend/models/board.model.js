@@ -6,9 +6,9 @@ const boardSchema = new Schema({
     required: true,
     trim: true
   },
-  todos: [{
+  tasks: [{
     type: SchemaTypes.ObjectId,
-    ref: "Todo"
+    ref: "Task"
   }],
   // owner: {
   //   type: SchemaTypes.ObjectId,

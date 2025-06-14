@@ -9,6 +9,7 @@ app.use(cors())
 
 import connectDB from './config/db.config.js';
 import boardRoutes from './routes/board.routes.js';
+import taskRoutes from './routes/task.routes.js';
 
 connectDB()
 
@@ -20,6 +21,7 @@ app.get('/', (req, res) => {
 })
 
 app.use("/api/boards", boardRoutes)
+app.use("/api/tasks", taskRoutes)
 
 
 const PORT = process.env.PORT || 3001;

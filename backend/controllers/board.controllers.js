@@ -1,9 +1,12 @@
-import Board from '../models/board.models.js';
-import Todo from '../models/todo.models.js';
+import Board from '../models/board.model.js';
+import Task from '../models/task.model.js';
 
 export const createBoard = async (req, res, next) => {
   try {
     const { title } = req.body;
+    // const isBoardExist = Board.findOne({ title })
+    // if (isBoardExist) return res.json({ message: "Board already found" });
+
     const board = await Board.create({ title })
     res.status(201).json(board);
   } catch (error) {
@@ -13,7 +16,7 @@ export const createBoard = async (req, res, next) => {
 
 export const getBoards = async (req, res, next) => {
   try {
-    const boards = await Board.find({}).populate('todos').lean()
+    const boards = await Board.find({}).populate('tasks').lean()
     res.json(boards);
   } catch (error) {
     next(error)
@@ -37,8 +40,8 @@ export const deleteBoard = async (req, res, next) => {
   try {
     const board = await Board.findOneAndDelete({ _id: req.params.id })
     if (!board) return res.status(404).json({ message: 'Board not found' });
-    await Todo.deleteMany({ board: req.params.id });
-    res.json({ message: 'Board and its todos deleted' });
+    await Task.deleteMany({ board: req.params.id });
+    res.json({ message: 'Board and its tasks deleted' });
   } catch (err) {
     next(err);
   }

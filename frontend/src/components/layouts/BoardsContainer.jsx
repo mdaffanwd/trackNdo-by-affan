@@ -2,7 +2,6 @@ import { useCallback, useState } from 'react'
 import AddBoardDialog from '../dialogs/AddBoardDialog.jsx'
 import Board from '../ui/Board.jsx'
 import { Plus } from 'lucide-react'
-import Header from './Header.jsx'
 import { useEffect } from 'react'
 import { createBoard, deleteBoard, getBoards, updateBoard } from '../../services/boardService.js'
 import toast from 'react-hot-toast';
@@ -63,7 +62,6 @@ export default function BoardsContainer() {
             try {
                 const allBoards = await getBoards()
                 setBoards(allBoards)
-                // console.log(allBoards)
             } catch (error) {
                 console.log('failed to fetch boards', error)
             }
@@ -99,6 +97,7 @@ export default function BoardsContainer() {
                                 key={board._id}
                                 boardId={board._id}
                                 title={board.title}
+                                initialTasks={board.tasks || []}
                                 handleDeleteBoard={handleDeleteBoard}
                                 handleRenameBoard={handleRenameBoard}
                             />
