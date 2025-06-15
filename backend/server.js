@@ -1,20 +1,20 @@
 import express from 'express'
-const app = express();
-
 import dotenv from 'dotenv';
-dotenv.config();
-
 import cors from 'cors'
-app.use(cors())
+
 
 import connectDB from './config/db.config.js';
 import boardRoutes from './routes/board.routes.js';
 import taskRoutes from './routes/task.routes.js';
+import googleAuthRoutes from './routes/googleAuth.routes.js';
+
+const app = express();
+dotenv.config();
+app.use(cors())
+app.use(express.json());
+app.use(cookieParser());
 
 connectDB()
-
-app.use(express.json());
-
 
 app.get('/', (req, res) => {
   res.send("hi")
@@ -22,6 +22,8 @@ app.get('/', (req, res) => {
 
 app.use("/api/boards", boardRoutes)
 app.use("/api/tasks", taskRoutes)
+app.use("/api/google-auth", googleAuthRoutes)
+
 
 
 const PORT = process.env.PORT || 3001;

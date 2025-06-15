@@ -1,6 +1,7 @@
 import mongoose, { model, Schema } from 'mongoose'
 
 const userSchema = new Schema({
+  googleId: { type: String, required: true, unique: true },
   name: {
     type: String,
     required: [true, 'Name is required'],
@@ -16,11 +17,12 @@ const userSchema = new Schema({
     lowercase: true,
     match: [/.+@.+\..+/, 'Please fill a valid email address'],
   },
-  password: {
-    type: String,
-    required: [true, 'Password is required'],
-    minlength: [6, 'Password must be at least 6 characters'],
-  },
+  // password: {
+  //   type: String,
+  //   required: [true, 'Password is required'],
+  //   minlength: [6, 'Password must be at least 6 characters'],
+  // },
+  avatar: { type: String },
   // Boards created by the user
   boards: [
     {
