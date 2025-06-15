@@ -115,7 +115,7 @@ export default function Board({
         />
       )}
 
-      <div className="flex-grow p-4 bg-gray-50 dark:bg-gray-800 border-t-4 border-t-red-800 rounded-2xl shadow-xl transition-colors duration-300 dark:shadow-2xl dark:shadow-gray-800">
+      <div className=" flex-grow p-4 bg-gray-50 dark:bg-gray-800 border-t-4 border-t-red-800 rounded-2xl shadow-xl transition-colors duration-300 dark:shadow-2xl dark:shadow-gray-800">
         <div className="flex items-center justify-between p-5 bg-white dark:bg-gray-700 border-b-2 border-gray-400 dark:border-gray-600 rounded-t-2xl transition-colors duration-300">
           <div className='flex items-center gap-2'>
             {isEditing ? (

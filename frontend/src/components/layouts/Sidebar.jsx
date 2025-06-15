@@ -33,7 +33,7 @@ export default function Sidebar() {
     }
     return (
         <aside
-            className={`sticky top-0 h-screen bg-white dark:bg-gray-900 shadow-2xl transition-all duration-300 flex flex-col ${shouldBeFull ? 'w-56' : 'w-fit'}`}
+            className={`sticky px-2 top-0 h-screen bg-white dark:bg-gray-800 shadow-2xl transition-all duration-300 flex flex-col ${shouldBeFull ? 'w-56' : 'w-fit'}`}
         >
             {/* Logo + desktop toggle */}
             <div className="flex items-center justify-between p-4">

@@ -70,7 +70,7 @@ export default function BoardsContainer() {
     }, [])
 
     return (
-        <main className='p-4 bg-slate-100 dark:bg-gray-900'>
+        <main className='min-h-full p-4 bg-slate-100 dark:bg-gray-900'>
             <div className='w-full'>
                 {/* <Header /> */}
 
@@ -89,7 +89,7 @@ export default function BoardsContainer() {
                     <span>Add New Board</span>
                 </button>
 
-                <div className='w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  items-center gap-4 mx-auto'>
+                <div className=' w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  items-start gap-4 mx-auto'>
                     {boards
                         .slice().reverse()
                         .map(board => (

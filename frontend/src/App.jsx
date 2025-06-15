@@ -9,6 +9,7 @@ import SignUp from './components/layouts/SignUp.jsx'
 import HomePage from './pages/HomePage.jsx'
 import ProvidersWrapper from './context/ProvidersWrapper.jsx'
 import Toast from './components/ui/Toast.jsx'
+import AuthPage from './pages/AuthPage';
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
       <Toast />
       <HomePage />
       {/* <Header /> */}
+      {/* <AuthPage /> */}
       {/* <main className='flex flex-row min-h-screen w-[100%] max-w-[1640px] m-auto'>
         <Sidebar />
         <MainLayout>

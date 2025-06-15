@@ -8,7 +8,7 @@ export default function HomePage() {
     const { isMobileSidebarOpen } = useSidebar();
 
     return (
-        <main className="flex relative min-h-screen w-full max-w-[1640px] mx-auto">
+        <main className="min-h-full flex relative w-full max-w-[1640px] mx-auto">
             {/* Sidebar wrapper: slides on mobile, static on desktop */}
             <div
                 className={`fixed inset-y-0 left-0 z-50 transform transition-transform duration-300 
