@@ -43,7 +43,10 @@ export const getGoogleAuthLoggedInUser = async (req, res, next) => {
     const { token } = req.cookies;
     if (!token) return res.status(401).json({ error: 'Not authenticated' });
 
-    const { userId } = verifyJWT(token)
+    const accessToken = verifyJWT(token)
+    // bcz, we sending jwt.sign(payload ....) and payload is { userId: user._id } in above CNTRLR
+    const userId = accessToken.userId
+    console.log(accessToken.userId)
 
     const user = await User.findById(userId).lean();
     if (!user) return res.status(401).json({ error: 'User not found' });

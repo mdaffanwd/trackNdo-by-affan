@@ -5,10 +5,9 @@ import { getGoogleAuthLoggedInUser, googleAuthLogin, logoutGoogleAuthUser } from
 const router = Router();
 
 // ex:- POST /api/auth/google
-router.post('/google', googleAuthLogin)
-
-
-router.get('/me', getGoogleAuthLoggedInUser)
+router.get('/', getGoogleAuthLoggedInUser)
+router.post('/', googleAuthLogin)
+router.post('/logout', logoutGoogleAuthUser )
 
 
 router.post('/logout', logoutGoogleAuthUser);
