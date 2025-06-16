@@ -5,7 +5,7 @@ import Task from "../models/task.model.js";
 export async function createTask(req, res, next) {
   try {
     const { title, description, priority, board: boardId } = req.body
-    console.log("🔍 Looking for existing task with title:", title);
+    // console.log("🔍 Looking for existing task with title:", title);
 
     const isTaskExist = await Task.findOne({ title })
     if (isTaskExist) {

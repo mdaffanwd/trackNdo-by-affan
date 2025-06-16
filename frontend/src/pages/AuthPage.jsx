@@ -1,31 +1,55 @@
 import { LogIn, Moon, Sun } from "lucide-react";
 import { useGoogleAuth } from "../context/GoogleAuthContext.jsx";
-import { useEffect } from "react";
-import { GoogleLogin } from "@react-oauth/google";
+
+import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import useDarkMode from "../hooks/useDarkMode.js";
 
 export default function AuthPage() {
-    const { error, isAuthenticated, googleAuthLogin } = useGoogleAuth()
-    const [isDark, toggleDarkMode] = useDarkMode()
+    const { error, isAuthenticated, googleAuthLogin } = useGoogleAuth();
+    const [isDark, toggleDarkMode] = useDarkMode();
 
+    // const handleGoogleAuthLogin = useGoogleLogin({
+    //     onSuccess: async (credentialResponse) => {
+    //         console.log(credentialResponse)
+    //         // const idToken = credentialResponse.credential || tokenResponse.access_token;
+    //         const idToken = credentialResponse.credential
+    //         googleAuthLogin(idToken);
+    //     },
+    //     onError: () => console.error('Google login failed'),
+    // });
 
-    console.log(isAuthenticated)
+    console.log("isAuthenticated:", isAuthenticated);
+
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-100 via-white to-gray-700 dark:from-gray-900 dark:via-gray-500 dark:to-gray-600 flex items-center justify-center px-4" >
+        <div className="relative min-h-screen max-w-7xl mx-auto bg-gradient-to-br from-gray-100 via-white to-gray-700 dark:from-gray-900 dark:via-gray-500 dark:to-gray-600 flex justify-center items-center px-4">
 
+            {/* ✅ Dark Mode Toggle - Top Right */}
+            <button
+                onClick={toggleDarkMode}
+                className="absolute top-4 right-4 p-2 rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white transition-colors duration-300"
+                aria-label="Toggle Dark Mode"
+            >
+                {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
 
-
+            {/* Auth Card */}
             <div className="w-full max-w-md bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg dark:shadow-2xl transition-colors duration-300">
+
                 {/* Logo / App Name */}
                 <div className="mb-6 text-center">
-                    <h1 className="text-3xl font-bold text-gray-800 dark:text-white">Welcome to trackNdo</h1>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Sign in to continue</p>
+                    <h1 className="text-3xl font-bold text-gray-800 dark:text-white">
+                        Welcome to trackNdo
+                    </h1>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                        Sign in to continue
+                    </p>
                 </div>
 
                 {/* Google Sign In Button */}
                 <GoogleLogin
                     onSuccess={credentialResponse => {
                         const idToken = credentialResponse.credential;
+                        // 📤 send just the string to your API
                         googleAuthLogin(idToken);
                     }}
                     onError={() => {

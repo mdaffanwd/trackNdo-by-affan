@@ -1,3 +1,5 @@
+import jwt from 'jsonwebtoken'
+
 export function generateJWT(payload) {
   return jwt.sign(
     payload,

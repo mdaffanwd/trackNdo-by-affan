@@ -1,16 +1,13 @@
 import { Router } from 'express'
 
-import { getGoogleAuthLoggedInUser, googleAuthLogin, logoutGoogleAuthUser } from '../controllers/googleAuth.controllers.js';
+import { getGoogleAuthLoggedInUser, googleAuthSignIn, logoutGoogleAuthUser } from '../controllers/googleAuth.controllers.js';
 
 const router = Router();
 
 // ex:- POST /api/auth/google
-router.get('/', getGoogleAuthLoggedInUser)
-router.post('/', googleAuthLogin)
-router.post('/logout', logoutGoogleAuthUser )
-
-
-router.post('/logout', logoutGoogleAuthUser);
+router.get('/get-current-user', getGoogleAuthLoggedInUser)
+router.post('/google-signin', googleAuthSignIn)
+router.post('/logout', logoutGoogleAuthUser)
 
 const googleAuthRoutes = router
 export default googleAuthRoutes;

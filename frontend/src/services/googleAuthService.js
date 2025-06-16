@@ -1,14 +1,16 @@
 
 import api from './api';
 
-export async function googleAuthLoginApi(idToken) {
-  const response = await api.post('/google-auth/', { idToken })
-  return response.data
+export async function googleAuthSigninApi(idToken) {
+  const { data } = await api.post('/google-auth/google-signin', { idToken });
+  return data;
+  // return response.data
 }
 
 export async function getCurrentGoogleAuthLoggedInUserApi() {
-  const response = await api.get('/google-auth/')
-  return response.data;
+  console.log("HIT /get-current-user");
+  const { data } = await api.get('/google-auth/get-current-user');
+  return data;
 }
 
 export async function logoutGoogleAuthUserApi() {

@@ -28,7 +28,7 @@ export default function BoardsContainer() {
             setBoardTitle("")
             toast.success(`Board added successfully with title: ${boardTitle}`);
         } catch (error) {
-            console.error('Create board failed', error);
+            // console.error('Create board failed', error);
             toast.error("Something went wrong!");
         }
     }, [boardTitle, setBoards, setBoardTitle, handleCloseBoard])
@@ -44,7 +44,7 @@ export default function BoardsContainer() {
     }
 
     async function handleRenameBoard(boardId, newTitle) {
-        console.log(newTitle)
+        // console.log(newTitle)
         try {
             const updated = await updateBoard(boardId, { title: newTitle });
             setBoards(allBoards =>
@@ -52,19 +52,15 @@ export default function BoardsContainer() {
             );
             toast.success(`Renamed board to “${updated.title}”`);
         } catch (error) {
-            console.error(error);
+            // console.error(error);
             toast.error('Could not rename board');
         }
     }
 
     useEffect(() => {
         async function getAllBoards() {
-            try {
-                const allBoards = await getBoards()
-                setBoards(allBoards)
-            } catch (error) {
-                console.log('failed to fetch boards', error)
-            }
+            const allBoards = await getBoards()
+            setBoards(allBoards)
         }
         getAllBoards()
     }, [])

@@ -1,5 +1,6 @@
-import { createContext, useContext, useEffect } from "react";
-import { getCurrentGoogleAuthLoggedInUserApi, googleAuthLoginApi, logoutGoogleAuthUserApi } from "../services/googleAuthService.js";
+import { createContext, useContext, useEffect, useState } from "react";
+import { getCurrentGoogleAuthLoggedInUserApi, googleAuthSigninApi, logoutGoogleAuthUserApi } from "../services/googleAuthService.js";
+import { useNavigate } from "react-router";
 
 const GoogleAuthContext = createContext({
     user: null,
@@ -10,6 +11,7 @@ const GoogleAuthContext = createContext({
 });
 
 export function GoogleAuthContextProvider({ children }) {
+    const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const [error, setError] = useState(null);
 
@@ -17,10 +19,10 @@ export function GoogleAuthContextProvider({ children }) {
     async function googleAuthLogin(idToken) {
         setError(null)
         try {
-            await googleAuthLoginApi(idToken)
-            // Re‑fetch user from server
-            const { user: fetchedUser } = await getCurrentGoogleAuthLoggedInUserApi();
-            setUser(fetchedUser)
+            const { user: loggedInUser } = await googleAuthSigninApi(idToken);
+            setUser(loggedInUser);
+
+            navigate('/home', { replace: true });
         } catch (error) {
             console.error('Google login failed', error);
             setError(error);
@@ -56,7 +58,7 @@ export function GoogleAuthContextProvider({ children }) {
     return (
         <GoogleAuthContext.Provider value={{
             user,
-            isAuthenticated,
+            isAuthenticated: !!user,
             error,
             googleAuthLogin,
             googleAuthLogout

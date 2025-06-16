@@ -7,11 +7,11 @@ import { BrowserRouter, Route, Routes } from 'react-router'
 import NotFoundPage from './pages/NotFoundPage.jsx'
 
 export default function App() {
-  return (
-    <ProvidersWrapper>
-      <BrowserRouter>
-        <Toast />
 
+  return (
+    <BrowserRouter>
+      <ProvidersWrapper>
+        <Toast />
         <Routes >
           <Route path='/' element={<LandingPage />} />
           <Route path='/auth' element={<AuthPage />} />
@@ -21,7 +21,7 @@ export default function App() {
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
-      </BrowserRouter>
-    </ProvidersWrapper>
+      </ProvidersWrapper>
+    </BrowserRouter>
   )
 }

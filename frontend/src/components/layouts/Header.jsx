@@ -37,7 +37,6 @@ export default function Header() {
                         className="h-full w-full object-cover"
                     /> */}
                     <User className="h-8 w-8 text-gray-500 dark:text-gray-300" />
-
                 </button>
             </div>
         </header>
