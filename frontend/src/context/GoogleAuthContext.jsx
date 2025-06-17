@@ -43,21 +43,24 @@ export function GoogleAuthContextProvider({ children }) {
 
     // On mount, check for existing session (HTTP‑only cookie)
     useEffect(() => {
-        (async function fetchCurrentUser() {
+        async function fetchCurrentUser() {
             setError(null);
             try {
+                if (!document.cookie.split('; ').some(c => c.startsWith('token='))) return;
                 const { user: fetchedCurrentUser } = await getCurrentGoogleAuthLoggedInUserApi()
                 setUser(fetchedCurrentUser)
             } catch (error) {
                 setError(error)
                 setUser(null);
             }
-        })()
+        }
+        fetchCurrentUser()
     }, [])
 
     return (
         <GoogleAuthContext.Provider value={{
             user,
+            setUser,
             isAuthenticated: !!user,
             error,
             googleAuthLogin,

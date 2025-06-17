@@ -8,7 +8,7 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 export const googleAuthSignIn = async (req, res, next) => {
   try {
     const { idToken } = req.body;
-    console.log("🔎 Incoming idToken:", req.body.idToken);
+    // console.log("🔎 Incoming idToken:", req.body.idToken);
 
     const ticket = await client.verifyIdToken({
       idToken,
@@ -71,6 +71,7 @@ export const logoutGoogleAuthUser = async (req, res) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
+      path: '/'
     })
     .json({ success: true });
 }

@@ -1,24 +1,27 @@
 import { LogIn, Moon, Sun } from "lucide-react";
+import { GoogleLogin } from "@react-oauth/google";
 import { useGoogleAuth } from "../context/GoogleAuthContext.jsx";
 
-import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import useDarkMode from "../hooks/useDarkMode.js";
+import { useLocation, useNavigate } from "react-router";
+import { useEffect } from "react";
 
 export default function AuthPage() {
     const { error, isAuthenticated, googleAuthLogin } = useGoogleAuth();
     const [isDark, toggleDarkMode] = useDarkMode();
 
-    // const handleGoogleAuthLogin = useGoogleLogin({
-    //     onSuccess: async (credentialResponse) => {
-    //         console.log(credentialResponse)
-    //         // const idToken = credentialResponse.credential || tokenResponse.access_token;
-    //         const idToken = credentialResponse.credential
-    //         googleAuthLogin(idToken);
-    //     },
-    //     onError: () => console.error('Google login failed'),
-    // });
+    const navigate = useNavigate();
+    // sending back from where they came.
+    const { state } = useLocation();
+    const from = state?.from?.pathname || '/home';
 
     console.log("isAuthenticated:", isAuthenticated);
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate(from, { replace: true });
+        }
+    }, [isAuthenticated, navigate, from]);
 
     return (
         <div className="relative min-h-screen max-w-7xl mx-auto bg-gradient-to-br from-gray-100 via-white to-gray-700 dark:from-gray-900 dark:via-gray-500 dark:to-gray-600 flex justify-center items-center px-4">
@@ -46,16 +49,18 @@ export default function AuthPage() {
                 </div>
 
                 {/* Google Sign In Button */}
-                <GoogleLogin
-                    onSuccess={credentialResponse => {
-                        const idToken = credentialResponse.credential;
-                        // 📤 send just the string to your API
-                        googleAuthLogin(idToken);
-                    }}
-                    onError={() => {
-                        console.error('Google Login Failed');
-                    }}
-                />
+                <div>
+                    <GoogleLogin
+                        onSuccess={credentialResponse => {
+                            const idToken = credentialResponse.credential;
+                            // 📤 sending just the string to API
+                            googleAuthLogin(idToken);
+                        }}
+                        onError={() => {
+                            console.error('Google Login Failed');
+                        }}
+                    />
+                </div>
 
                 {/* Divider */}
                 <div className="flex items-center gap-4 my-6">

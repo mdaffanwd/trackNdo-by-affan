@@ -10,7 +10,7 @@ export async function googleAuthSigninApi(idToken) {
 export async function getCurrentGoogleAuthLoggedInUserApi() {
   console.log("HIT /get-current-user");
   const { data } = await api.get('/google-auth/get-current-user');
-  return data;
+  return data
 }
 
 export async function logoutGoogleAuthUserApi() {
