@@ -10,10 +10,10 @@ const boardSchema = new Schema({
     type: SchemaTypes.ObjectId,
     ref: "Task"
   }],
-  // owner: {
-  //   type: SchemaTypes.ObjectId,
-  //   ref: "User",
-  // }
+  owner: {
+    type: SchemaTypes.ObjectId,
+    ref: "User",
+  }
 }, { timestamps: true })
 
 const Board = model("Board", boardSchema)
